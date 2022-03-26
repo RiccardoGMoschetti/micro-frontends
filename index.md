@@ -146,7 +146,7 @@ L'esempio precedente usa la specifica versione 1 degli Elementi Custom, che al m
 
 Siccome gli Elementi Custom sono uno standard web, li supportano tutti i principali framework JavaScript, come Angular, React, Preact, Vue o Hyperapp. Però, quando entri nei dettagli, alcuni di questi framework hanno ancora qualche problemino implementativo. Su [Custom Elements Everywhere](https://custom-elements-everywhere.com/), [Rob Dodson](https://twitter.com/rob_dodson) ha messo in piedi una suite di test che mette in evidenza i problemi irrisolti.
 
-### Evitiama l'Anarchia dei Framework
+### Evitiamo l'Anarchia dei Framework
 
 Usare gli Elementi Custom è un ottimo modo per raggiungere un alto grado di disaccoppiamento fra i frammenti dei diversi team. In questo modo, ogni team è libero di scegliere un framework di frontend. Però, solo perché puoi farlo non significa che sia saggio mixare tecnologie differenti. Proviamo ad evitare l'[Anarchia dei Micro Frontend](https://www.thoughtworks.com/radar/techniques/micro-frontend-anarchy) e a creare invece un livello di allineamento ragionevole fra i vari team. Così, i team possono scambiarsi insegnamenti e best practice. Ci renderà poi la vita più facile se vogliamo stabilire una pattern library centralizzata.
 Detto ciò, la possibilità di mixare le tecnologie può essere utile quando lavori con un'applicazione legacy e vuoi migrarla a uno stack tecnologico nuovo.
