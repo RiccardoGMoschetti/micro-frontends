@@ -2,12 +2,12 @@ Tecniche, strategie e ricette per sviluppare un'__applicazione web moderna__ con
 
 ## Cosa sono i Micro Frontend?
 
-Il temine __Micro Frontend__ è apparso per la prima volta su [ThoughtWorks Technology Radar](https://www.thoughtworks.com/radar/techniques/micro-frontends) alla fine del 2016. Esten   \1qde al mondo del frontend i concetti dei microservizi. Il trend corrente era di costruire applicazioni browser potenti e ricche di funzionalità - note come single page application - messe sopra ad architetture a microservizi. Con il tempo, questo strato di frontend, sviluppato il più delle volte da un team a sé stante, cresce e diventa difficile da manutenere. Questo lo chiamiamo [Frontend Monolitico](https://www.youtube.com/watch?v=pU1gXA0rfwc).
+Il termine __Micro Frontend__ è apparso per la prima volta su [ThoughtWorks Technology Radar](https://www.thoughtworks.com/radar/techniques/micro-frontends) alla fine del 2016. Estende al mondo del frontend i concetti dei microservizi. Il trend corrente era di costruire applicazioni browser potenti e ricche di funzionalità - note come single page application - sopra ad architetture a microservizi. Con il tempo, questo strato di frontend, sviluppato il più delle volte da un team a sé stante, cresce e diventa difficile da manutenere. Questo lo chiamiamo [Frontend Monolitico](https://www.youtube.com/watch?v=pU1gXA0rfwc).
 
 L'idea alla base dei Micro Frontend è - invece - di pensare al sito web o alla web app come a una __composizione di funzionalità__ che fanno capo a __team indipendenti__. Ogni team ha una sua __area di business, o missione, diversa__, di cui si prende cura e in cui si specializza. Ogni team è __cross funzionale__ e sviluppa le sue funzionalità __end-to-end__, dal database all'interfaccia utente.
 
 C'è da dire che quest'idea non è nuova. Ha molti punti in comune con il concetto di [Sistemi auto-contenuti](http://scs-architecture.org/).
-In passato, approcci simili venivano chiamati [Integrazione del Frontend per Sistemi Verticalizzati](https://dev.otto.de/2014/07/29/scaling-with-microservices-and-vertical-decomposition/). Ma, chiaramente, Micro Frontends è un termine più comodo e meno corposo.
+In passato, approcci simili venivano chiamati [Integrazione del Frontend per Sistemi Verticalizzati](https://dev.otto.de/2014/07/29/scaling-with-microservices-and-vertical-decomposition/). Ma, chiaramente, Micro Frontends è un termine più comodo e meno ingombrante.
 
 __Frontend Monolitici__
 <img alt="Frontend Monolitici" src="./ressources/diagrams/organisational/monolith-frontback-microservices.png" loading="lazy" />
@@ -19,18 +19,18 @@ __Organizzazione in verticali__
 
 Nell'introduzione, ho usato l'espressione "costruire un'applicazione web moderna". Definiamo le assunzioni collegate a questa definizione.
 
-Più in generale, [Aral Balkan](https://ar.al/) ha scritto un articolo su quello che chiama il [Continuum documenti-applicazioni](https://ar.al/notes/the-documents-to-applications-continuum/). Si è inventato l'idea di una bilancia scorrevole, alla cui sinistra c'è un sito costruito da __documenti statici__, connessi via link, mentre alla destra c'è un'__applicazione senza contenuti__, guidata puramente da comportamenti (behaviour driven), come un editor di foto.
+Più in generale, [Aral Balkan](https://ar.al/) ha scritto un articolo su quello che chiama il [Continuum documenti-applicazioni](https://ar.al/notes/the-documents-to-applications-continuum/). Ha proposto un concetto di una bilancia scorrevole alla cui sinistra c'è un sito costruito da __documenti statici__, connessi via link, mentre alla destra c'è un'__applicazione senza contenuti__, guidata puramente da comportamenti (behaviour driven), come un editor di foto.
 
-Se il tuo progetto si posiziona alla __sinistra dello spettro__, è adatta un'__integrazione a livello di webserver__. In tale modello, un server raccoglie e concatena __stringhe HTML__ provenienti da tutti i componenti che costituiscono la pagina richiesta dall'utente. Gli aggiornamenti sono fatti ricaricando la pagina dal server o sostituendone alcune parti con Ajax. [Gustaf Nilsson Kotte](https://twitter.com/gustaf_nk/) ha scritto un [articolo esaustivo](https://gustafnk.github.io/microservice-websites/) su quest'argomento.
+Se il tuo progetto si posiziona alla __sinistra dello spettro__, è adatto a un'__integrazione a livello di webserver__. In tale modello, un server raccoglie e concatena __stringhe HTML__ provenienti da tutti i componenti che costituiscono la pagina richiesta dall'utente. Gli aggiornamenti sono fatti ricaricando la pagina dal server o sostituendone alcune parti con Ajax. [Gustaf Nilsson Kotte](https://twitter.com/gustaf_nk/) ha scritto un [articolo esaustivo](https://gustafnk.github.io/microservice-websites/) su quest'argomento.
 
 Quando la tua interfaccia utente deve mostrare un __feedback immediato__, anche in caso di cattiva connessione, non basta più un sito costruito interamente sul server. Per implementare tecniche come [UI ottimistica](https://www.smashingmagazine.com/2016/11/true-lies-of-optimistic-user-interfaces/) o [Skeleton Screens](http://www.lukew.com/ff/entry.asp?1797) devi poter __aggiornare__ la UI __sul device stesso__. La definizione di Google [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/) descrive abilmente l'__atto di bilanciamento__ insito nell'essere un bravo cittadino del web (enhancement progressivo), garantendo nello stesso tempo performance simili a quelle di un'app. Questo tipo d'applicazione si pone __più o meno a metà del continuum sito-app__. Qui non basta più una soluzione basata solo sul server. Dobbiamo spostare l'__integrazione nel browser__, e questo è il focus di quest'articolo.
 
 ## Idee fondamentali alla base dei Micro Frontend
 
-* __Sii Agnostico sulla Tecnologia__<br>Ogni team dovrebbe poter scegliere e aggiornare il suo stack senza doversi coordinare con gli altri team. Gli [Elementi Custom](#the-dom-is-the-api) sono un modo ottimo per nascondere i dettagli implementativi, fornendo al contempo un'interfaccia neutrale agli altri.
+* __Sii Agnostico sulla Tecnologia__<br>Ogni team dovrebbe poter scegliere e aggiornare il suo stack senza doversi coordinare con gli altri team. Gli [Elementi Custom](#il-dom-è-l'api) sono un modo ottimo per nascondere i dettagli implementativi, fornendo al contempo un'interfaccia neutrale agli altri.
 * __Isola il Codice del Team__<br>Non condividere il runtime, anche se tutti i team usano lo stesso framework. Costruisci applicazioni indipendenti e auto-contenute. Non fare affidamento sullo stato condiviso o su variabili globali.
 * __Stabilisci Prefissi per i Team__<br>Condividi una naming convention laddove non sia ancora possibile l'isolamento. Dai un namespace a CSS, Eventi, Local Storage e Cookies per evitare collisioni e per chiarire chi è l'owner.
-* __Privilegia le Funzionalità Native del Browser rispetto alle API Custom__ Usa [Gli Eventi del Browser per la comunicazione](#parent-child-communication--dom-modification) invece di mettere su un sistema globale PubSub. Se proprio devi creare un'API cross-team, cerca di tenerla la più semplice possibile.
+* __Privilegia le Funzionalità Native del Browser rispetto alle API Custom__ Usa [Gli Eventi del Browser per la comunicazione](#Comunicazione Padre-Figlio--Modifica-del-DOM) invece di mettere su un sistema globale PubSub. Se proprio devi creare un'API cross-team, cerca di tenerla la più semplice possibile.
 * __Costruisci un Sito Resiliente__<br>Le feature del sito dovrebbero rimanere utili anche se JavaScript fallisce o non è ancora stato eseguito. Usa il [Rendering Universale](#serverside-rendering--universal-rendering) e l'Enhancement Progressivo per migliorare le performance percepite.
 
 ---
@@ -127,7 +127,7 @@ Per supportare questo comportamento, l'Elemento Custom può implementare la call
       render() {
         const sku = this.getAttribute('sku');
         const price = prices[sku];
-        this.innerHTML = `<button type="button">acquista for ${price}</button>`;
+        this.innerHTML = `<button type="button">acquista a ${price}</button>`;
       }
       attributeChangedCallback(attr, oldValue, newValue) {
         this.render();
@@ -136,7 +136,7 @@ Per supportare questo comportamento, l'Elemento Custom può implementare la call
     }
     window.customElements.define('blue-buy', BlueBuy);
 
-Per evitare duplicazioni, introduciamo un metodo `render()` che viene chiamato da `connectedCallback` e `attributeChangedCallback`. Questo metodo raccoglie i dati necessari e il nuovo markup è in innerHTML. Quando si decide di usare un motore o framework di template più sofisticato nell'Elemento Custom, questo è il posto dove dovrebbe andare il suo codice d'inizializzazione.
+Per evitare duplicazioni, introduciamo un metodo `render()` che viene chiamato da `connectedCallback` e `attributeChangedCallback`. Questo metodo raccoglie i dati necessari e il nuovo markup va in innerHTML. Quando si decide di usare un motore o framework di template più sofisticato nell'Elemento Custom, questo è il posto dove dovrebbe andare il suo codice d'inizializzazione.
 
 ### Supporto dei Browser
 
@@ -153,7 +153,7 @@ Detto ciò, la possibilità di mixare le tecnologie può essere utile quando lav
 
 ### Comunicazione fra Figlio-Genitore o fra Fratelli / Eventi DOM
 
-Ma passare gli attributi non è sufficiente per tutte le interazioni. Nel nostro esempio, il __mini carrello dovrebbe aggiornari__ quando l'utente __clicca sul pulsante d'acquisto__.
+Ma passare gli attributi non è sufficiente per tutte le interazioni. Nel nostro esempio, il __mini carrello dovrebbe aggiornarsi__ quando l'utente __clicca sul pulsante d'acquisto__.
 
 Entrambi i frammenti sono di proprietà del Team Checkout (blu), quindi loro potrebbero creare una qualche API JavaScript interna che permettesse al mini carrello di sapere quando è stato premuto un pulsante. Ma questo significherebbe che le istanze dei componenti dovrebbero conoscersi a vicenda e questa sarebbe pure una violazione dell'isolamento.
 
@@ -255,7 +255,7 @@ Il commento `#include` viene sostituito dalla risposta di `/blue-buy?sku=t_porsc
       }
     }
 
-La direttiva `ssi: on;` abilita la funzionalità SSI. Viene aggiunto un block `upstream` e `location` per team, per assicurarsi che tutti gli URL che cominciano con `/blue` siano diretti all'applicazione giusta (`team_blue:3001`). In aggiunta, la rotta `/` viene mappata al Team Red, che contolla la homepage / pagina prodotto.
+La direttiva `ssi: on;` abilita la funzionalità SSI. Vengono aggiunti un blocco `upstream` e uno `location` per team, per assicurarsi che tutti gli URL che cominciano con `/blue` siano diretti all'applicazione giusta (`team_blue:3001`). In aggiunta, la rotta `/` viene mappata al Team Red, che contolla la homepage / pagina prodotto.
 
 Quest'animazione mostra il negozio di modellini di trattori in un browser che ha __JavaScript disabilitato__.
 
@@ -273,7 +273,7 @@ Puoi giocare con quest'esempio sulla tua macchina locale. Devi installare solo [
     cd micro-frontends/2-composition-universal
     docker-compose up --build
 
-Docker fa partire nginx sulla porta 3000 e costruisce un'immagine node.js per ogni team. Quando apri [http://127.0.0.1:3000/](http://127.0.0.1:3000/) nel browser, dovresti vedere un trattore rosso. I log combinati di `docker-compose` permettono di vedere facilmente cosa succede sulla rete. Purtroppo non c'è modo di controllare il colore dell'output, quindi devi rassegnarti al fatto ch il Team Blu potrebbe essere evidenziato in verde :)
+Docker fa partire nginx sulla porta 3000 e costruisce un'immagine node.js per ogni team. Quando apri [http://127.0.0.1:3000/](http://127.0.0.1:3000/) nel browser, dovresti vedere un trattore rosso. I log combinati di `docker-compose` permettono di vedere facilmente cosa succede sulla rete. Purtroppo non c'è modo di controllare il colore dell'output, quindi devi rassegnarti al fatto che il Team Blu potrebbe essere evidenziato in verde :)
 
 I file `src` sono mappati nei container individuali e l'applicazione node ripartirà quando fai una modifica al codice. Cambiare il file `nginx.conf` richiede un riavvio di `docker-compose` per avere effetto. Sentiti libero di giochicchiare e di fornire un feedback.
 
@@ -302,19 +302,19 @@ Una possibile soluzione sarebbe che il Team Rosso salta proprio l'SSI Include.
 <img alt="Riassestamento" src="./ressources/video/data-fetching-reflow.gif" style="width: 500px" loading="lazy" />
 
 Il rendering avviene solo nel browser.
-Ma, come si può vedere nell'animazione, questo cambio ha introdotto un __riassestamento sostanziale__ della pagina.
+Ma, come si può vedere nell'animazione, questo cambio ha introdotto un __reflow sostanziale__ della pagina.
 Il principio, la sezione raccomandazioni è bianca.
 Il JavaScript del Team Verde viene caricato ed eseguito.
 Viene fatta la chiamata API per ricevere le raccomandazioni personalizzate.
-Viene renderizzao il markup delle racconamdazioni e vengono richieste le immagini associate.
-Il frammento ora ha bisogno di più spazio e spinge il layout della pagine.
+Viene renderizzato il markup delle raccomandazioni e vengono richieste le immagini associate.
+Il frammento ora ha bisogno di più spazio e spinge giù il layout della pagina.
 
 Ci sono diverse opzioni per evitare un riposizionamento fastidioso come questo.
 
 Il Team Rosso, che controlla la pagina, potrebbe __rendere fissa l'altezza del container delle raccomandazioni__.
 Su un sito responsive è spesso ingannevole determinare l'altezza, perché potrebbe differire per schermi diversi.
 Ma il problema più serio è che __questo tipo di accordi inter-team crea un accoppiamento stretto__ fra i Team Rosso e Verde.
-Se i Team Verde vuole introdurre un sottotitolo aggiuntivo nell'elemento raccomandazioni, dovrebbe coordinarsi con il Team Rosso per la nuova altezza. Entrambi i team dovrebbero rilasciare simpultaneamente per evitare che si rompa il layout.
+Se i Team Verde vuole introdurre un sottotitolo aggiuntivo nell'elemento raccomandazioni, dovrebbe coordinarsi con il Team Rosso per la nuova altezza. I team dovrebbero rilasciare simultaneamente per evitare che si rompa il layout.
 
 Un metodo migliore è di usare una tecnica chiamata [Skeleton Screens](https://blog.prototypr.io/luke-wroblewski-introduced-skeleton-screens-in-2013-through-his-work-on-the-polar-app-later-fd1d32a6a8e7).
 Il Team Rosso lascia l'include SSI `green-recos` nel  markup.
@@ -327,7 +327,7 @@ Così __prenota lo spazio necessario__ e il riempimento del contenuto reale non 
 Gli Skeleton screen sono anche molto __utili per il rendering lato client__.
 Quando il tuo Elemento Custom viene inserito nel DOM per un'azione del'utente, potrebbe __renderizzare immediatamente lo scheletro__ finché non arrivano i dati di cui ha bisogno dal server.
 
-Anche per un __cambio d'attributo__ (per esempio per la __selezione di una variante__ si può decidere di passare alla vista scheletro finché non arrivano i nuovi dati.
+Anche per un __cambio d'attributo__ (per esempio per la __selezione di una variante__) si può decidere di passare alla vista scheletro finché non arrivano i nuovi dati.
 
 Im questo modo, l'utente riceve un'indicazione che qualcosa sta succedendo nel frammento. 
 Ma quando l'endpoint risponde velocemente, può dare fastidio anche un piccolo __sfarfallio dello scheletro__ fra i dati vecchi e nuovi.
@@ -343,11 +343,11 @@ Guarda il [Repo Github](https://github.com/neuland/micro-frontends) per ricevere
 
 
 ## Risorse Aggiuntive
-- [Libro: Micro Frontends in Action](https://www.manning.com/books/micro-frontends-in-action?a_aid=mfia&a_bid=5f09fdeb) Scritto da me.
+- [Libro: Micro Frontends in Action](https://www.manning.com/books/micro-frontends-in-action?a_aid=mfia&a_bid=5f09fdeb). Scritto da me.
 - [Discussione: Micro Frontends - MicroCPH, Copenhagen 2019](https://www.youtube.com/watch?v=wCHYILvM7kU) ([Slides](https://noti.st/naltatis/zQb2m5/micro-frontends-the-nitty-gritty-details-or-frontend-backend-happyend)) I dettagli più essenziali di Frontend, Backend, 🌈 Happyend
 - [Discussione: Micro Frontends - Web Rebels, Oslo 2018](https://www.youtube.com/watch?v=dTW7eJsIHDg) ([Slides](https://noti.st/naltatis/HxcUfZ/micro-frontends-think-smaller-avoid-the-monolith-love-the-backend)) Pensa in piccolo, Evita il Monolite,❤️ il Backend
 - [Slides: Micro Frontends - JSUnconf.eu 2017](https://speakerdeck.com/naltatis/micro-frontends-building-a-modern-webapp-with-multiple-teams)
-- [Discussione: Break Up With Your Frontend Monolith - JS Kongress 2017](https://www.youtube.com/watch?v=W3_8sxUurzA) Elisabeth Engel parla dell'implementazione dei Micro Frontends a gutefrage.net
+- [Discussione: Break Up With Your Frontend Monolith - JS Kongress 2017](https://www.youtube.com/watch?v=W3_8sxUurzA) Elisabeth Engel parla dell'implementazione dei Micro Frontends in gutefrage.net
 - [Articolo: Micro Frontends](https://martinfowler.com/articles/micro-frontends.html) Articolo di Cam Jackson sul blog di Martin Fowler 
 - [Post: Micro frontends - a microservice approach to front-end web development](https://medium.com/@tomsoderlund/micro-frontends-a-microservice-approach-to-front-end-web-development-f325ebdadc16) Tom Söderlund spiega i concetti base e fornisce link sull'argomento
 - [Post: Microservices to Micro-Frontends](http://www.agilechamps.com/microservices-to-micro-frontends/) Sandeep Jain riassume i principi chiave di  microservizi e micro frontends
