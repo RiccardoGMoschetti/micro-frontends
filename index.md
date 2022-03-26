@@ -2,7 +2,7 @@ Tecniche, strategie e ricette per sviluppare un'__applicazione web moderna__ con
 
 ## Cosa sono i Micro Frontend?
 
-Il temine __Micro Frontend__ è apparso per la prima volta su [ThoughtWorks Technology Radar](https://www.thoughtworks.com/radar/techniques/micro-frontends) alla fine del 2016. Estende al mondo del frontend i concetti dei microservizi. Il trend corrente era di costruire applicazioni browser potenti e ricche di funzionalità - note come single page application - messe sopra ad architetture a microservizi. Con il tempo, questo strato di frontend, sviluppato il più delle volte da un team a sé stante, cresce e diventa difficile da manutenere. Questo lo chiamiamo [Frontend Monolitico](https://www.youtube.com/watch?v=pU1gXA0rfwc).
+Il temine __Micro Frontend__ è apparso per la prima volta su [ThoughtWorks Technology Radar](https://www.thoughtworks.com/radar/techniques/micro-frontends) alla fine del 2016. Esten   \1qde al mondo del frontend i concetti dei microservizi. Il trend corrente era di costruire applicazioni browser potenti e ricche di funzionalità - note come single page application - messe sopra ad architetture a microservizi. Con il tempo, questo strato di frontend, sviluppato il più delle volte da un team a sé stante, cresce e diventa difficile da manutenere. Questo lo chiamiamo [Frontend Monolitico](https://www.youtube.com/watch?v=pU1gXA0rfwc).
 
 L'idea alla base dei Micro Frontend è - invece - di pensare al sito web o alla web app come a una __composizione di funzionalità__ che fanno capo a __team indipendenti__. Ogni team ha una sua __area di business, o missione, diversa__, di cui si prende cura e in cui si specializza. Ogni team è __cross funzionale__ e sviluppa le sue funzionalità __end-to-end__, dal database all'interfaccia utente.
 
@@ -32,6 +32,7 @@ Quando la tua interfaccia utente deve mostrare un __feedback immediato__, anche 
 * __Stabilisci Prefissi per i Team__<br>Condividi una naming convention laddove non sia ancora possibile l'isolamento. Dai un namespace a CSS, Eventi, Local Storage e Cookies per evitare collisioni e per chiarire chi è l'owner.
 * __Privilegia le Funzionalità Native del Browser rispetto alle API Custom__ Usa [Gli Eventi del Browser per la comunicazione](#parent-child-communication--dom-modification) invece di mettere su un sistema globale PubSub. Se proprio devi creare un'API cross-team, cerca di tenerla la più semplice possibile.
 * __Costruisci un Sito Resiliente__<br>Le feature del sito dovrebbero rimanere utili anche se JavaScript fallisce o non è ancora stato eseguito. Usa il [Rendering Universale](#serverside-rendering--universal-rendering) e l'Enhancement Progressivo per migliorare le performance percepite.
+
 ---
 
 ## Il DOM è l'API 
@@ -145,7 +146,7 @@ L'esempio precedente usa la specifica versione 1 degli Elementi Custom, che al m
 
 Siccome gli Elementi Custom sono uno standard web, li supportano tutti i principali framework JavaScript, come Angular, React, Preact, Vue o Hyperapp. Però, quando entri nei dettagli, alcuni di questi framework hanno ancora qualche problemino implementativo. Su [Custom Elements Everywhere](https://custom-elements-everywhere.com/), [Rob Dodson](https://twitter.com/rob_dodson) ha messo in piedi una suite di test che mette in evidenza i problemi irrisolti.
 
-### Evitiama l'Anarchia dei Framework
+### Evitiamo l'Anarchia dei Framework
 
 Usare gli Elementi Custom è un ottimo modo per raggiungere un alto grado di disaccoppiamento fra i frammenti dei diversi team. In questo modo, ogni team è libero di scegliere un framework di frontend. Però, solo perché puoi farlo non significa che sia saggio mixare tecnologie differenti. Proviamo ad evitare l'[Anarchia dei Micro Frontend](https://www.thoughtworks.com/radar/techniques/micro-frontend-anarchy) e a creare invece un livello di allineamento ragionevole fra i vari team. Così, i team possono scambiarsi insegnamenti e best practice. Ci renderà poi la vita più facile se vogliamo stabilire una pattern library centralizzata.
 Detto ciò, la possibilità di mixare le tecnologie può essere utile quando lavori con un'applicazione legacy e vuoi migrarla a uno stack tecnologico nuovo.
@@ -358,6 +359,7 @@ Guarda il [Repo Github](https://github.com/neuland/micro-frontends) per ricevere
 ## Related Techniques
 - [Posts: Cookie Cutter Scaling](https://paulhammant.com/categories.html#Cookie_Cutter_Scaling) David Hammet has scritto una serie di blog post su quest'argomento 
 - [Wikipedia: Java Portlet Specification](https://en.wikipedia.org/wiki/Java_Portlet_Specification) Specifica che si rivolge ad argomento simili per la costruzione di portali enterprise.
+
 ---
 
 ## Cose in Arrivo ... (molto presto)
@@ -377,12 +379,12 @@ Guarda il [Repo Github](https://github.com/neuland/micro-frontends) per ricevere
   - ...
 
 ## Hanno contribuito
-- [Koike Takayuki](https://github.com/koiketakayuki) cha ha tradotto il sito in [Giapponese](https://micro-frontends-japanese.org/).
-- [Jorge Beltrán](https://github.com/scipion) cha ha tradotto il sito in [Spagnolo](https://micro-frontends-es.org).
-- [Bruno Carneiro](https://github.com/Tautorn) cha ha tradotto il sito in [Portoghese](https://tautorn.github.io/micro-frontends/).
-- [Soobin Bak](https://github.com/soobing) cha ha tradotto il sito in [Coreano](https://soobing.github.io/micro-frontends/).
-- [Sergei Babin](https://github.com/serzn1) cha ha tradotto il sito in [Russo](https://serzn1.github.io/micro-frontends/).
-- [Shiwei Yang](https://github.com/swearer23) cha ha tradotto il sito in [Cinese](https://swearer23.github.io/micro-frontends/).
-- [Riccardo Moschetti](https://github.com/RiccardoGMoschetti) che ha tradotto il sito in [Italiano]
+- [Koike Takayuki](https://github.com/koiketakayuki) che ha tradotto il sito in [Giapponese](https://micro-frontends-japanese.org/).
+- [Jorge Beltrán](https://github.com/scipion) che ha tradotto il sito in [Spagnolo](https://micro-frontends-es.org).
+- [Bruno Carneiro](https://github.com/Tautorn) che ha tradotto il sito in [Portoghese](https://tautorn.github.io/micro-frontends/).
+- [Soobin Bak](https://github.com/soobing) che ha tradotto il sito in [Coreano](https://soobing.github.io/micro-frontends/).
+- [Sergei Babin](https://github.com/serzn1) che ha tradotto il sito in [Russo](https://serzn1.github.io/micro-frontends/).
+- [Shiwei Yang](https://github.com/swearer23) che ha tradotto il sito in [Cinese](https://swearer23.github.io/micro-frontends/).
+- [Riccardo Moschetti](https://github.com/RiccardoGMoschetti) che ha tradotto il sito in [Italiano](https://riccardogmoschetti.github.io/micro-frontends/).
 
 Questo sito è generato da Github Pages. Il codice si trova qui: [neuland/micro-frontends](https://github.com/neuland/micro-frontends/).
