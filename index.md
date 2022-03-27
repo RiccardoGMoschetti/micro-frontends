@@ -1,13 +1,13 @@
-Tecniche, strategie e ricette per sviluppare un'__applicazione web moderna__ con il contributo di __team diversificati__ che possano __rilasciare funzionalità in maniera indipendente__.
+Tecniche, strategie e ricette per sviluppare un'__applicazione web moderna__ con il contributo di __team diversi__ che possano __rilasciare funzionalità in maniera indipendente__.
 
 ## Cosa sono i Micro Frontend?
 
-Il termine __Micro Frontend__ è apparso per la prima volta su [ThoughtWorks Technology Radar](https://www.thoughtworks.com/radar/techniques/micro-frontends) alla fine del 2016. Estende al mondo del frontend i concetti dei microservizi. Il trend corrente era di costruire applicazioni browser potenti e ricche di funzionalità - note come single page application - sopra ad architetture a microservizi. Con il tempo, questo strato di frontend, sviluppato il più delle volte da un team a sé stante, cresce e diventa difficile da manutenere. Questo lo chiamiamo [Frontend Monolitico](https://www.youtube.com/watch?v=pU1gXA0rfwc).
+Il termine __Micro Frontend__ è apparso per la prima volta su [ThoughtWorks Technology Radar](https://www.thoughtworks.com/radar/techniques/micro-frontends) alla fine del 2016. Estende i concetti dei microservizi al mondo del frontend. Il trend corrente era di costruire applicazioni browser potenti e ricche di funzionalità - note come single page application - in testa ad architetture a microservizi. Con il tempo, questo strato di frontend, sviluppato il più delle volte da un team a sé stante, cresce e diventa difficile da manutenere. Chiamiamo ciò [Frontend Monolitico](https://www.youtube.com/watch?v=pU1gXA0rfwc).
 
 L'idea alla base dei Micro Frontend è - invece - di pensare al sito web o alla web app come a una __composizione di funzionalità__ che fanno capo a __team indipendenti__. Ogni team ha una sua __area di business, o missione, diversa__, di cui si prende cura e in cui si specializza. Ogni team è __cross funzionale__ e sviluppa le sue funzionalità __end-to-end__, dal database all'interfaccia utente.
 
 C'è da dire che quest'idea non è nuova. Ha molti punti in comune con il concetto di [Sistemi auto-contenuti](http://scs-architecture.org/).
-In passato, approcci simili venivano chiamati [Integrazione del Frontend per Sistemi Verticalizzati](https://dev.otto.de/2014/07/29/scaling-with-microservices-and-vertical-decomposition/). Ma, chiaramente, Micro Frontend è un termine più comodo e meno ingombrante.
+In passato, approcci simili venivano chiamati [Integrazione del Frontend per Sistemi Verticalizzati](https://dev.otto.de/2014/07/29/scaling-with-microservices-and-vertical-decomposition/). Ma, chiaramente, Micro Frontend è un termine più comodo e meno altisonante.
 
 __Frontend Monolitici__
 <img alt="Frontend Monolitici" src="./ressources/diagrams/organisational/monolith-frontback-microservices.png" loading="lazy" />
@@ -19,27 +19,27 @@ __Organizzazione in verticali__
 
 Nell'introduzione, ho usato l'espressione "costruire un'applicazione web moderna". Definiamo le assunzioni collegate a questa definizione.
 
-Se la mettiamo in una prospettiva più ampia, [Aral Balkan](https://ar.al/) ha scritto un articolo su quello che chiama il [Continuum documenti-applicazioni](https://ar.al/notes/the-documents-to-applications-continuum/). Ha proposto il concetto di una bilancia scorrevole alla cui sinistra c'è un sito costruito da __documenti statici__, connessi via link, mentre alla destra c'è un'__applicazione senza contenuti__, guidata puramente da comportamenti (behaviour driven), come un editor di foto.
+Se la mettiamo in una prospettiva più ampia, [Aral Balkan](https://ar.al/) ha scritto un articolo su quello che chiama il [Continuum documenti-applicazioni](https://ar.al/notes/the-documents-to-applications-continuum/). Ha proposto il concetto di una bilancia scorrevole alla cui sinistra c'è un sito costruito da __documenti statici__, connessi attraverso link, mentre alla destra c'è un'__applicazione senza contenuti__, guidata puramente da comportamenti (behaviour driven), come un editor di foto.
 
 Se il tuo progetto si posiziona alla __sinistra dello spettro__, è adatto a un'__integrazione a livello di webserver__. In tale modello, un server raccoglie e concatena __stringhe HTML__ provenienti da tutti i componenti che costituiscono la pagina richiesta dall'utente. Gli aggiornamenti sono fatti ricaricando la pagina dal server o sostituendone alcune parti con Ajax. [Gustaf Nilsson Kotte](https://twitter.com/gustaf_nk/) ha scritto un [articolo esaustivo](https://gustafnk.github.io/microservice-websites/) su quest'argomento.
 
-Quando la tua interfaccia utente deve mostrare un __feedback immediato__, anche in caso di cattiva connessione, non basta più un sito costruito interamente sul server. Per implementare tecniche come [UI ottimistica](https://www.smashingmagazine.com/2016/11/true-lies-of-optimistic-user-interfaces/) o [Skeleton Screens](http://www.lukew.com/ff/entry.asp?1797) devi poter __aggiornare__ la UI __sul device stesso__. La definizione di Google [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/) descrive abilmente l'__atto di bilanciamento__ insito nell'essere un bravo cittadino del web (enhancement progressivo), garantendo nello stesso tempo performance simili a quelle di un'app. Questo tipo d'applicazione si pone __più o meno a metà del continuum sito-app__. Qui non basta più una soluzione basata solo sul server. Dobbiamo spostare l'__integrazione nel browser__, e questo è il focus di quest'articolo.
+Quando la tua interfaccia utente deve mostrare un __feedback immediato__, anche in caso di cattiva connessione, non basta più un sito costruito interamente sul server. Per implementare tecniche come [UI ottimistica](https://www.smashingmagazine.com/2016/11/true-lies-of-optimistic-user-interfaces/) o [Skeleton Screens](http://www.lukew.com/ff/entry.asp?1797) devi poter __aggiornare__ la UI __sul device stesso__. La definizione di Google [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/) descrive convincentemente l'__atto di bilanciamento__ che consiste nell'essere un bravo cittadino del web (enhancement progressivo), garantendo allo stesso tempo performance simili a quelle di un'app. Questo tipo d'applicazione si pone __più o meno a metà del continuum sito-app__. Qui non basta più una soluzione basata solo sul server. Dobbiamo spostare l'__integrazione nel browser__, e questo è il focus di quest'articolo.
 
 ## Idee fondamentali alla base dei Micro Frontend
 
-* __Sii Agnostico sulla Tecnologia__<br>Ogni team dovrebbe poter scegliere e aggiornare il suo stack senza doversi coordinare con gli altri team. Gli [Elementi Custom](#il-dom-è-l'api) sono un modo ottimo per nascondere i dettagli implementativi, fornendo al contempo un'interfaccia neutrale agli altri.
+* __Sii Agnostico sulla Tecnologia__<br>Ogni team dovrebbe poter scegliere e aggiornare il suo stack senza doversi coordinare con gli altri team. Gli [Elementi Custom](#il-dom-è-l-api) sono un modo ottimo per nascondere i dettagli implementativi, fornendo al contempo un'interfaccia neutrale agli altri.
 * __Isola il Codice del Team__<br>Non condividere il runtime, anche se tutti i team usano lo stesso framework. Costruisci applicazioni indipendenti e auto-contenute. Non fare affidamento sullo stato condiviso o su variabili globali.
-* __Stabilisci Prefissi per i Team__<br>Condividi una naming convention laddove non sia ancora possibile l'isolamento. Dai un namespace a CSS, Eventi, Local Storage e Cookies per evitare collisioni e per chiarire chi è l'owner.
-* __Privilegia le Funzionalità Native del Browser rispetto alle API Custom__ Usa [Gli Eventi del Browser per la comunicazione](#Comunicazione Padre-Figlio--Modifica-del-DOM) invece di mettere su un sistema globale PubSub. Se proprio devi creare un'API cross-team, cerca di tenerla la più semplice possibile.
+* __Stabilisci Prefissi per i Team__<br>Condividi una naming convention laddove non sia ancora possibile l'isolamento. Fornisci un namespace a CSS, Eventi, Local Storage e Cookies per evitare collisioni e per chiarire chi è l'owner.
+* __Privilegia le Funzionalità Native del Browser rispetto alle API Custom__ Usa [Gli Eventi del Browser per la comunicazione](#comunicazione-padre-figlio--modifica-del-dom) invece di implementare un sistema globale PubSub. Se proprio devi creare un'API cross-team, cerca di tenerla la più semplice possibile.
 * __Costruisci un Sito Resiliente__<br>Le feature del sito dovrebbero rimanere utili anche se JavaScript fallisce o non è ancora stato eseguito. Usa il [Rendering Universale](#serverside-rendering--universal-rendering) e l'Enhancement Progressivo per migliorare le performance percepite.
 
 ---
 
 ## Il DOM è l'API 
 
-Gli [Elementi Custom](https://developers.google.com/web/fundamentals/getting-started/primers/customelements), che rappresentano l'aspetto d'interoperabilità della specifica Web Components, sono una buona primitiva per realizzare un'integrazione nel browser. Ogni team costruisce il suo componente __usando la tecnologia che preferisce__ e __la wrappa in un Elemento Custom__ (esempio: `<order-minicart></order-minicart>`). La specifica DOM di questo particolare elemento (tag-name, attributi ed eventi) fa da contratto o API pubblica per gli altri team. Il vantaggio è che questi ultimi possono usare il componente e le sue funzionalità senza conoscerne l'implementazione: devono solo interagire col DOM.
+Gli [Elementi Custom](https://developers.google.com/web/fundamentals/getting-started/primers/customelements), che rappresentano l'aspetto d'interoperabilità della specifica Web Components, sono una buona primitiva per realizzare un'integrazione nel browser. Ogni team costruisce il suo componente __usando la tecnologia che preferisce__ e __la avvolge in un Elemento Custom__ (esempio: `<order-minicart></order-minicart>`). La specifica DOM di questo particolare elemento (tag-name, attributi ed eventi) fa da contratto o API pubblica per gli altri team. Il vantaggio è che questi ultimi possono usare il componente e le sue funzionalità senza conoscerne l'implementazione: devono solo interagire col DOM.
 
-Ma gli Elementi Custom, da soli, non sono la soluzione a tutti i nostri problemi. Per indirizzare l'enhancement progressivo, il rendering universale e il routing abbiamo bisogno di software aggiuntivo.
+Ma gli Elementi Custom, da soli, non sono la soluzione a tutti i nostri problemi. Per indirizzare l'enhancement progressivo, il rendering universale e il routing, abbiamo bisogno di software aggiuntivo.
 
 Questa pagina è divisa in due aree principali. Prima dobbiamo discutere della [Composizione della Pagina](#page-composition) - ovvero come assemblare una pagina da più componenti gestiti da team diversi. Dopo, mostreremo esempi per implementare le [Transizioni di Pagina](#page-transition) lato client.
 
@@ -50,7 +50,7 @@ Oltre proprio all'integrazione del codice lato __client__ e __server__ scritto c
 
 ### Il Prototipo Base
 
-Useremo come base per gli esempi seguenti la pagina prodotto di un negozio di modellini di trattori.
+Useremo come base per gli esempi seguenti la pagina prodotto di un negozio di modellini di trattore.
 
 Espone un __selettore di varianti__ per scegliere fra i tre diversi modellini di trattore. A ogni cambiamento, si aggiornano l'immagine, il nome, il prezzo e le raccomandazioni del prodotto. C'è anche un __pulsante d'acquisto__, che aggiunge la variante selezionata al cestino, e un __mini carrello__ alla sommità della pagina, che si aggiorna di conseguenza.
 
@@ -89,7 +89,7 @@ Adesso, ogni volta che il browser trova un nuovo tag `blue-buy`, viene chiamata 
 
 <img alt="Elemento Custom in Azione" src="./ressources/video/custom-element.gif" loading="lazy" />
 
-Quando dai un nome all'elemento, l'unico requisito definito dalla specifica è che il nome deve __includere un trattino (-)__ per mantenere la compatibilità con tag HTML futuri. Nei prossimi esempi, useremo la convenzione `[colore_del_team]-[feature]`. Il namespace del team ci protegge da collisioni e, in aggiunta, così diventa ovvio chi detiene una feature, guardando semplicemente il DOM.
+Quando dai un nome all'elemento, l'unico requisito definito dalla specifica è che il nome deve __includere un trattino (-)__ per mantenere la compatibilità con tag HTML futuri. Nei prossimi esempi, useremo la convenzione `[colore_del_team]-[feature]`. Il namespace del team ci protegge da collisioni e, in aggiunta, diventa in questo modo ovvio chi detiene una feature, guardando semplicemente il DOM.
 
 ### Comunicazione Padre-Figlio / Modifica del DOM
 
@@ -140,11 +140,11 @@ Per evitare duplicazioni, introduciamo un metodo `render()` che viene chiamato d
 
 ### Supporto dei Browser
 
-L'esempio precedente usa la specifica versione 1 degli Elementi Custom, che al momento è [supportata da Chrome, Safari e Opera](http://caniuse.com/#feat=custom-elementsv1). Però, con il progetto [document-register-element](https://github.com/WebReflection/document-register-element) è stato reso disponibile un polyfill rodato e leggero per far funzionare tutto questo in tutti i browser. Sotto il cofano, usa un'API [ampiamente supportata](http://caniuse.com/#feat=mutationobserver), la Mutation Observer, dunque non ci sono controlli strani in background dell'albero DOM.
+L'esempio precedente usa la specifica versione 1 degli Elementi Custom, che al momento è [supportata da Chrome, Safari e Opera](http://caniuse.com/#feat=custom-elementsv1). Però, con il progetto [document-register-element](https://github.com/WebReflection/document-register-element) è stato reso disponibile un polyfill rodato e leggero per far funzionare tutto ciò in tutti i browser. Sotto il cofano, usa un'API [ampiamente supportata](http://caniuse.com/#feat=mutationobserver), la Mutation Observer, dunque non ci sono controlli strani in background dell'albero DOM.
 
 ### Compatibilità Framework
 
-Siccome gli Elementi Custom sono uno standard web, li supportano tutti i principali framework JavaScript, come Angular, React, Preact, Vue o Hyperapp. Però, quando entri nei dettagli, alcuni di questi framework hanno ancora qualche problemino implementativo. Su [Custom Elements Everywhere](https://custom-elements-everywhere.com/), [Rob Dodson](https://twitter.com/rob_dodson) ha messo in piedi una suite di test che mette in evidenza i problemi irrisolti.
+Siccome gli Elementi Custom sono uno standard web, li supportano tutti i principali framework JavaScript, come Angular, React, Preact, Vue o Hyperapp. Però, quando entri nei dettagli, alcuni di questi framework hanno ancora qualche problemino implementativo. Su [Custom Elements Everywhere](https://custom-elements-everywhere.com/), [Rob Dodson](https://twitter.com/rob_dodson) ha messo in piedi una suite di test che evidenzia i problemi irrisolti.
 
 ### Evitiamo l'Anarchia dei Framework
 
@@ -263,9 +263,9 @@ Quest'animazione mostra il negozio di modellini di trattori in un browser che ha
 
 [ispeziona il codice](https://github.com/neuland/micro-frontends/tree/master/2-composition-universal)
 
-I pulsanti di selezione della variante adesso sono proprio link e ogni click porta a ricaricare la pagina. La linea di comando sulla destra mostra il processo con cui una richiesta della pagina viene inoltrata al Team Rosso, che controlla la pagina prodotto, e dopo il markup viene fornito dai frammenti dei Team Blu e Verde.
+I pulsanti di selezione della variante adesso sono proprio link e ogni click porta a ricaricare la pagina. La linea di comando sulla destra mostra il processo con cui una richiesta della pagina viene inoltrata al Team Rosso, che controlla la pagina prodotto; dopo, il markup viene fornito dai frammenti dei Team Blu e Verde.
 
-Se viene riattivato JavaScript, sarà visibile solo il messaggio di log per la prima richiesta. Tutte le modifiche al trattore successive saranno gestite lato client, come nel primo esempio. In un esempio successivo, i dati dei prodotti saranno estratti dal JavaScript e caricati da una API REST per quanto serve.
+Se viene riattivato JavaScript, sarà visibile solo il messaggio di log per la prima richiesta. Tutte le modifiche seguenti al trattore saranno gestite lato client, come nel primo esempio. In un esempio successivo, i dati dei prodotti saranno estratti dal JavaScript e caricati da una API REST per quel che serve.
 
 Puoi giocare con quest'esempio sulla tua macchina locale. Devi installare solo [Docker Compose](https://docs.docker.com/compose/install/).
 
@@ -280,12 +280,12 @@ I file `src` sono mappati nei container individuali e l'applicazione node ripart
 ### Lettura dei dati & stati di Caricamento
 
 Uno svantaggio dell'approccio SSI/ESI è che __il frammento più lento determina il tempo di risposta__ dell'intera pagina.
-Quindi, è bene cachare la risposta di un frammento.
+Quindi, può far bene cachare la risposta di un frammento.
 Per frammenti che sono dispendiosi da produrre e difficili da mettere in cache, è spesso indicato escluderli dal rendering iniziale.
 Possono essere caricati in maniera asincrona nel browser.
 Nel nostro esempio, un buon candidato per questo è il frammento `green-recos`, che mostra raccomandazioni personalizzate.
 
-Una possibile soluzione sarebbe che il Team Rosso salta proprio l'SSI Include.
+Una possibile soluzione sarebbe che il Team Rosso saltasse proprio l'SSI Include.
 
 **Prima**
 
@@ -314,11 +314,11 @@ Ci sono diverse opzioni per evitare un riposizionamento fastidioso come questo.
 Il Team Rosso, che controlla la pagina, potrebbe __rendere fissa l'altezza del container delle raccomandazioni__.
 Su un sito responsive è spesso ingannevole determinare l'altezza, perché potrebbe differire per schermi diversi.
 Ma il problema più serio è che __questo tipo di accordi inter-team crea un accoppiamento stretto__ fra i Team Rosso e Verde.
-Se i Team Verde vuole introdurre un sottotitolo aggiuntivo nell'elemento raccomandazioni, dovrebbe coordinarsi con il Team Rosso per la nuova altezza. I team dovrebbero rilasciare simultaneamente per evitare che si rompa il layout.
+Se il Team Verde vuole introdurre una sotto-intestazione aggiuntiva nell'elemento raccomandazioni, dovrebbe coordinarsi con il Team Rosso per la nuova altezza. I team dovrebbero rilasciare simultaneamente per evitare che si rompa il layout.
 
 Un metodo migliore è di usare una tecnica chiamata [Skeleton Screens](https://blog.prototypr.io/luke-wroblewski-introduced-skeleton-screens-in-2013-through-his-work-on-the-polar-app-later-fd1d32a6a8e7).
 Il Team Rosso lascia l'include SSI `green-recos` nel  markup.
-In più, il Team Verde cambia  __il metodo di renderizzazione lato-server__ del suo frammento in modo che produca una __versione schematica del contenuto__.
+In più, il Team Verde cambia __il metodo di renderizzazione lato-server__ del suo frammento in modo che produca una __versione schematica del contenuto__.
 Il __markup skeleton___ può riusare parte degli stili del layout del contenuto reale.
 Così __prenota lo spazio necessario__ e il riempimento del contenuto reale non comporta un salto.
 
@@ -356,9 +356,9 @@ Guarda il [Repo Github](https://github.com/neuland/micro-frontends) per ricevere
 - [Custom Elements Everywhere](https://custom-elements-everywhere.com/) Per assicurarsi che i framework e gli elementi custom siano BFF (best friend forever)
 - I trattori si possono comprare da [manufactum.com](https://www.manufactum.com/) :)<br>_Questo negozio è stato sviluppato da due team usando le tecniche qui descritte._
 
-## Related Techniques
-- [Posts: Cookie Cutter Scaling](https://paulhammant.com/categories.html#Cookie_Cutter_Scaling) David Hammet ha scritto una serie di blog post su quest'argomento 
-- [Wikipedia: Java Portlet Specification](https://en.wikipedia.org/wiki/Java_Portlet_Specification) Specifica che si rivolge ad argomento simili per la costruzione di portali enterprise.
+## Tecniche Correlate
+- [Post: Cookie Cutter Scaling](https://paulhammant.com/categories.html#Cookie_Cutter_Scaling) David Hammet ha scritto una serie di blog post su quest'argomento 
+- [Wikipedia: Java Portlet Specification](https://en.wikipedia.org/wiki/Java_Portlet_Specification) Specifica che si rivolge ad argomenti simili per la costruzione di portali enterprise.
 
 ---
 
