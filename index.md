@@ -41,7 +41,7 @@ Gli [Elementi Custom](https://developers.google.com/web/fundamentals/getting-sta
 
 Ma gli Elementi Custom, da soli, non sono la soluzione a tutti i nostri problemi. Per indirizzare l'enhancement progressivo, il rendering universale e il routing, abbiamo bisogno di software aggiuntivo.
 
-Questa pagina è divisa in due aree principali. Prima dobbiamo discutere della [Composizione della Pagina](#composizione-dalla-pagina) - ovvero come assemblare una pagina da più componenti gestiti da team diversi. Dopo, mostreremo esempi per implementare le [Transizioni di Pagina](#page-transition) lato client.
+Questa pagina è divisa in due aree principali. Prima dobbiamo discutere della [Composizione della Pagina](#composizione-della-pagina) - ovvero come assemblare una pagina da più componenti gestiti da team diversi. Dopo, mostreremo esempi per implementare le [Transizioni di Pagina](#page-transition) lato client.
 
 
 ## Composizione della Pagina
@@ -204,7 +204,7 @@ Con quest'approccio, il frammento del mini carrello aggiunge un listener a un el
       $('blue-basket')[0].refresh();
     });
 
-Non è comune chiamare imperativamente metodi del DOM, ma si può trovare un esempio nella [video element api](https://developer.mozilla.org/de/docs/Web/HTML/Using_HTML5_audio_and_video#Controlling_media_playback). Se possibile, dovrebbe essere preferito l'uso dell'approccio dichiarativo (cambio dell'attributo).
+Non è comune chiamare imperativamente metodi del DOM, ma si può trovare un esempio nella [video element api](https://developer.mozilla.org/en/docs/Web/HTML/Using_HTML5_audio_and_video#Controlling_media_playback). Se possibile, dovrebbe essere preferito l'uso dell'approccio dichiarativo (cambio dell'attributo).
 
 ## Rendering lato Server / Rendering Universale
 
