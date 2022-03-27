@@ -27,11 +27,11 @@ Quando la tua interfaccia utente deve mostrare un __feedback immediato__, anche 
 
 ## Idee fondamentali alla base dei Micro Frontend
 
-* __Sii Agnostico sulla Tecnologia__<br>Ogni team dovrebbe poter scegliere e aggiornare il suo stack senza doversi coordinare con gli altri team. Gli [Elementi Custom](#il-dom-è-l-api) sono un modo ottimo per nascondere i dettagli implementativi, fornendo al contempo un'interfaccia neutrale agli altri.
+* __Sii Agnostico sulla Tecnologia__<br>Ogni team dovrebbe poter scegliere e aggiornare il suo stack senza doversi coordinare con gli altri team. Gli [Elementi Custom](#il-dom-è-lapi) sono un modo ottimo per nascondere i dettagli implementativi, fornendo al contempo un'interfaccia neutrale agli altri.
 * __Isola il Codice del Team__<br>Non condividere il runtime, anche se tutti i team usano lo stesso framework. Costruisci applicazioni indipendenti e auto-contenute. Non fare affidamento sullo stato condiviso o su variabili globali.
 * __Stabilisci Prefissi per i Team__<br>Condividi una naming convention laddove non sia ancora possibile l'isolamento. Fornisci un namespace a CSS, Eventi, Local Storage e Cookies per evitare collisioni e per chiarire chi è l'owner.
 * __Privilegia le Funzionalità Native del Browser rispetto alle API Custom__ Usa [Gli Eventi del Browser per la comunicazione](#comunicazione-padre-figlio--modifica-del-dom) invece di implementare un sistema globale PubSub. Se proprio devi creare un'API cross-team, cerca di tenerla la più semplice possibile.
-* __Costruisci un Sito Resiliente__<br>Le feature del sito dovrebbero rimanere utili anche se JavaScript fallisce o non è ancora stato eseguito. Usa il [Rendering Universale](#serverside-rendering--universal-rendering) e l'Enhancement Progressivo per migliorare le performance percepite.
+* __Costruisci un Sito Resiliente__<br>Le feature del sito dovrebbero rimanere utili anche se JavaScript fallisce o non è ancora stato eseguito. Usa il [Rendering Universale](#rendering-lato-server--rendering-universale) e l'Enhancement Progressivo per migliorare le performance percepite.
 
 ---
 
@@ -41,7 +41,7 @@ Gli [Elementi Custom](https://developers.google.com/web/fundamentals/getting-sta
 
 Ma gli Elementi Custom, da soli, non sono la soluzione a tutti i nostri problemi. Per indirizzare l'enhancement progressivo, il rendering universale e il routing, abbiamo bisogno di software aggiuntivo.
 
-Questa pagina è divisa in due aree principali. Prima dobbiamo discutere della [Composizione della Pagina](#page-composition) - ovvero come assemblare una pagina da più componenti gestiti da team diversi. Dopo, mostreremo esempi per implementare le [Transizioni di Pagina](#page-transition) lato client.
+Questa pagina è divisa in due aree principali. Prima dobbiamo discutere della [Composizione della Pagina](#composizione-dalla-pagina) - ovvero come assemblare una pagina da più componenti gestiti da team diversi. Dopo, mostreremo esempi per implementare le [Transizioni di Pagina](#page-transition) lato client.
 
 
 ## Composizione della Pagina
@@ -299,7 +299,7 @@ Una possibile soluzione sarebbe che il Team Rosso saltasse proprio l'SSI Include
 
 *Nota a lato importante. Gli Elementi Custom [non possono essere self-closing](https://developers.google.com/web/fundamentals/architecture/building-components/customelements#jsapi), quindi è sbagliato scrivere `<green-recos sku="t_porsche" />`*
 
-<img alt="Riassestamento" src="./ressources/video/data-fetching-reflow.gif" style="width: 500px" loading="lazy" />
+<img alt="Riposizionamento" src="./ressources/video/data-fetching-reflow.gif" style="width: 500px" loading="lazy" />
 
 Il rendering avviene solo nel browser.
 Ma, come si può vedere nell'animazione, questo cambio ha introdotto un __reflow sostanziale__ della pagina.
