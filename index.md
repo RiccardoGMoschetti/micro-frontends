@@ -1,4 +1,4 @@
-Tecniche, strategie e ricette per sviluppare un'__applicazione web moderna__ con contributo di __team diversificati__ che possano __rilasciare funzionalità in maniera indipendente__.
+Tecniche, strategie e ricette per sviluppare un'__applicazione web moderna__ con il contributo di __team diversificati__ che possano __rilasciare funzionalità in maniera indipendente__.
 
 ## Cosa sono i Micro Frontend?
 
@@ -7,7 +7,7 @@ Il termine __Micro Frontend__ è apparso per la prima volta su [ThoughtWorks Tec
 L'idea alla base dei Micro Frontend è - invece - di pensare al sito web o alla web app come a una __composizione di funzionalità__ che fanno capo a __team indipendenti__. Ogni team ha una sua __area di business, o missione, diversa__, di cui si prende cura e in cui si specializza. Ogni team è __cross funzionale__ e sviluppa le sue funzionalità __end-to-end__, dal database all'interfaccia utente.
 
 C'è da dire che quest'idea non è nuova. Ha molti punti in comune con il concetto di [Sistemi auto-contenuti](http://scs-architecture.org/).
-In passato, approcci simili venivano chiamati [Integrazione del Frontend per Sistemi Verticalizzati](https://dev.otto.de/2014/07/29/scaling-with-microservices-and-vertical-decomposition/). Ma, chiaramente, Micro Frontends è un termine più comodo e meno ingombrante.
+In passato, approcci simili venivano chiamati [Integrazione del Frontend per Sistemi Verticalizzati](https://dev.otto.de/2014/07/29/scaling-with-microservices-and-vertical-decomposition/). Ma, chiaramente, Micro Frontend è un termine più comodo e meno ingombrante.
 
 __Frontend Monolitici__
 <img alt="Frontend Monolitici" src="./ressources/diagrams/organisational/monolith-frontback-microservices.png" loading="lazy" />
@@ -19,7 +19,7 @@ __Organizzazione in verticali__
 
 Nell'introduzione, ho usato l'espressione "costruire un'applicazione web moderna". Definiamo le assunzioni collegate a questa definizione.
 
-Più in generale, [Aral Balkan](https://ar.al/) ha scritto un articolo su quello che chiama il [Continuum documenti-applicazioni](https://ar.al/notes/the-documents-to-applications-continuum/). Ha proposto un concetto di una bilancia scorrevole alla cui sinistra c'è un sito costruito da __documenti statici__, connessi via link, mentre alla destra c'è un'__applicazione senza contenuti__, guidata puramente da comportamenti (behaviour driven), come un editor di foto.
+Se la mettiamo in una prospettiva più ampia, [Aral Balkan](https://ar.al/) ha scritto un articolo su quello che chiama il [Continuum documenti-applicazioni](https://ar.al/notes/the-documents-to-applications-continuum/). Ha proposto il concetto di una bilancia scorrevole alla cui sinistra c'è un sito costruito da __documenti statici__, connessi via link, mentre alla destra c'è un'__applicazione senza contenuti__, guidata puramente da comportamenti (behaviour driven), come un editor di foto.
 
 Se il tuo progetto si posiziona alla __sinistra dello spettro__, è adatto a un'__integrazione a livello di webserver__. In tale modello, un server raccoglie e concatena __stringhe HTML__ provenienti da tutti i componenti che costituiscono la pagina richiesta dall'utente. Gli aggiornamenti sono fatti ricaricando la pagina dal server o sostituendone alcune parti con Ajax. [Gustaf Nilsson Kotte](https://twitter.com/gustaf_nk/) ha scritto un [articolo esaustivo](https://gustafnk.github.io/microservice-websites/) su quest'argomento.
 
@@ -46,13 +46,13 @@ Questa pagina è divisa in due aree principali. Prima dobbiamo discutere della [
 
 ## Composizione della Pagina
 
-Oltre proprio all'integrazione del codice lato __client__ e __server__ scritto con __framework diversi__, ci sono un sacco di argomenti a lato da discutere: i meccanismi per __isolare il javascript__, __evitare i conflitti CSS__, __caricare le risorse__ quando serve, __condividere le risorse comuni__ fra i team, gestire __la richiesta di dati__ e pensare a una giusta __gestione degli stati di caricamento__ per l'utente. Affronteremo questi argomenti un passo alla volta.
+Oltre proprio all'integrazione del codice lato __client__ e __server__ scritto con __framework diversi__, ci sono un sacco di argomenti a lato da discutere: i meccanismi per __isolare il JavaScript__, __evitare i conflitti CSS__, __caricare le risorse__ quando serve, __condividere le risorse comuni__ fra i team, gestire __la richiesta di dati dal server__ e pensare a una giusta __gestione degli stati di caricamento__ per l'utente. Affronteremo questi argomenti un passo alla volta.
 
 ### Il Prototipo Base
 
 Useremo come base per gli esempi seguenti la pagina prodotto di un negozio di modellini di trattori.
 
-Espone un __selettore di varianti__ per scegliere fra i tre diversi modellini di trattore. A ogni cambio, si aggiornano l'immagine, il nome, il prezzo e le raccomandazioni del prodotto. C'è anche un __pulsante d'acquisto__, che aggiunge la variante selezionata al cestino, e un __mini carrello__ alla sommità della pagina, che si aggiorna di conseguenza.
+Espone un __selettore di varianti__ per scegliere fra i tre diversi modellini di trattore. A ogni cambiamento, si aggiornano l'immagine, il nome, il prezzo e le raccomandazioni del prodotto. C'è anche un __pulsante d'acquisto__, che aggiunge la variante selezionata al cestino, e un __mini carrello__ alla sommità della pagina, che si aggiorna di conseguenza.
 
 [![Esempio 1 - Pagina Prodotto - JS Puro](./ressources/video/model-store-0.gif)](./0-model-store/)
 
@@ -89,7 +89,7 @@ Adesso, ogni volta che il browser trova un nuovo tag `blue-buy`, viene chiamata 
 
 <img alt="Elemento Custom in Azione" src="./ressources/video/custom-element.gif" loading="lazy" />
 
-Quando dai un nome all'elemento, l'unico requisito definito dalla specifica è che il nome deve __includere un trattino (-)__ per mantenere la compatiblità con tag HTML futuri. Nei prossimi esempi, useremo la convenzione `[colore_del_team]-[feature]`. Il namespace del team ci protegge da collisioni e, in aggiunta, così diventa ovvio chi detiene una feature, guardando semplicemente il DOM.
+Quando dai un nome all'elemento, l'unico requisito definito dalla specifica è che il nome deve __includere un trattino (-)__ per mantenere la compatibilità con tag HTML futuri. Nei prossimi esempi, useremo la convenzione `[colore_del_team]-[feature]`. Il namespace del team ci protegge da collisioni e, in aggiunta, così diventa ovvio chi detiene una feature, guardando semplicemente il DOM.
 
 ### Comunicazione Padre-Figlio / Modifica del DOM
 
@@ -101,7 +101,7 @@ Se l'utente seleziona un altro trattore nel __selettore di varianti__, dev'esser
     
 La callback `disconnectedCallback` del vecchio elemento viene invocata in maniera sincrona per dare all'elemento la possibilità di fare pulizia di cose come i listener di eventi. Dopo, viene invocata la callback `connectedCallback` dell'elemento appena creato `t_fendt`.
 
-Un'altra possibilità più performante è di aggiornare solo l'attibuto `sku` dell'elemento esistente:
+Un'altra possibilità più performante è di aggiornare solo l'attributo `sku` dell'elemento esistente:
 
     document.querySelector('blue-buy').setAttribute('sku', 't_fendt');
 
@@ -136,7 +136,7 @@ Per supportare questo comportamento, l'Elemento Custom può implementare la call
     }
     window.customElements.define('blue-buy', BlueBuy);
 
-Per evitare duplicazioni, introduciamo un metodo `render()` che viene chiamato da `connectedCallback` e `attributeChangedCallback`. Questo metodo raccoglie i dati necessari e il nuovo markup va in innerHTML. Quando si decide di usare un motore o framework di template più sofisticato nell'Elemento Custom, questo è il posto dove dovrebbe andare il suo codice d'inizializzazione.
+Per evitare duplicazioni, introduciamo un metodo `render()` che viene chiamato da `connectedCallback` e `attributeChangedCallback`. Questo metodo raccoglie i dati necessari e il nuovo markup va in innerHTML. Se si decide di usare un motore o framework di template più sofisticato nell'Elemento Custom, questo è il posto dove dovrebbe andare il suo codice d'inizializzazione.
 
 ### Supporto dei Browser
 
@@ -204,11 +204,11 @@ Con quest'approccio, il frammento del mini carrello aggiunge un listener a un el
       $('blue-basket')[0].refresh();
     });
 
-Non è comune chiamare imperativamente metodi del DOM, ma si può trovare un esempio nella [video element api](https://developer.mozilla.org/de/docs/Web/HTML/Using_HTML5_audio_and_video#Controlling_media_playback). Se possible, dovrebbe essere preferito l'uso dell'approccio dichiarativo (cambio dell'attributo).
+Non è comune chiamare imperativamente metodi del DOM, ma si può trovare un esempio nella [video element api](https://developer.mozilla.org/de/docs/Web/HTML/Using_HTML5_audio_and_video#Controlling_media_playback). Se possibile, dovrebbe essere preferito l'uso dell'approccio dichiarativo (cambio dell'attributo).
 
 ## Rendering lato Server / Rendering Universale
 
-Gli Elementi Custom vanno benissimo per integrare componenti nel browser. Però, quando costruisci un sito che è accessibile dal web, è probabile che siano importanti pure le performance di caricamento iniziale e gli utenti vedranno lo schermo bianco finché non vengono scaricati ed eseguiti tutti i framework JavaScript. In aggiunta, è utile capire cosa succede quando il JavaScript fallisce o è bloccato. [Jeremy Keith](https://adactio.com/) ne spiega l'importanza nel suo eBook / podcast [Resilient Web Design](https://resilientwebdesign.com/). Dunque, la capacità di renderizzare i contentuti core sul server è chiave. Purtroppo, la specifica sui web component non parla proprio di rendering lato server. Niente JavaScript, niente Elementi Custom :(
+Gli Elementi Custom vanno benissimo per integrare componenti nel browser. Però, quando costruisci un sito che è accessibile dal web, è probabile che siano importanti pure le performance di caricamento iniziale e gli utenti vedranno lo schermo bianco finché non vengono scaricati ed eseguiti tutti i framework JavaScript. In aggiunta, è utile capire cosa succede quando il JavaScript fallisce o è bloccato. [Jeremy Keith](https://adactio.com/) ne spiega l'importanza nel suo eBook / podcast [Resilient Web Design](https://resilientwebdesign.com/). Dunque, la capacità di renderizzare i contenuti core sul server è chiave. Purtroppo, la specifica sui web component non parla proprio di rendering lato server. Niente JavaScript, niente Elementi Custom :(
 
 ### Elementi Custom + Server Side Includes = ❤️
 
@@ -255,7 +255,7 @@ Il commento `#include` viene sostituito dalla risposta di `/blue-buy?sku=t_porsc
       }
     }
 
-La direttiva `ssi: on;` abilita la funzionalità SSI. Vengono aggiunti un blocco `upstream` e uno `location` per team, per assicurarsi che tutti gli URL che cominciano con `/blue` siano diretti all'applicazione giusta (`team_blue:3001`). In aggiunta, la rotta `/` viene mappata al Team Red, che contolla la homepage / pagina prodotto.
+La direttiva `ssi: on;` abilita la funzionalità SSI. Vengono aggiunti un blocco `upstream` e uno `location` per team, per assicurarsi che tutti gli URL che cominciano con `/blue` siano diretti all'applicazione giusta (`team_blue:3001`). In aggiunta, la rotta `/` viene mappata al Team Red, che controlla la homepage / pagina prodotto.
 
 Quest'animazione mostra il negozio di modellini di trattori in un browser che ha __JavaScript disabilitato__.
 
@@ -265,7 +265,7 @@ Quest'animazione mostra il negozio di modellini di trattori in un browser che ha
 
 I pulsanti di selezione della variante adesso sono proprio link e ogni click porta a ricaricare la pagina. La linea di comando sulla destra mostra il processo con cui una richiesta della pagina viene inoltrata al Team Rosso, che controlla la pagina prodotto, e dopo il markup viene fornito dai frammenti dei Team Blu e Verde.
 
-Se viene riattivato JavaScript, sarà visibile solo il messaggio di log per la prima richiesta. Tutte le modifiche al trattore successive saranno gestite lato client, come nel primo esempio. In un esempio successivo, i dati dei prodotti saranno estratti dal Javascript e caricati da una API REST per quanto serve.
+Se viene riattivato JavaScript, sarà visibile solo il messaggio di log per la prima richiesta. Tutte le modifiche al trattore successive saranno gestite lato client, come nel primo esempio. In un esempio successivo, i dati dei prodotti saranno estratti dal JavaScript e caricati da una API REST per quanto serve.
 
 Puoi giocare con quest'esempio sulla tua macchina locale. Devi installare solo [Docker Compose](https://docs.docker.com/compose/install/).
 
@@ -318,18 +318,18 @@ Se i Team Verde vuole introdurre un sottotitolo aggiuntivo nell'elemento raccoma
 
 Un metodo migliore è di usare una tecnica chiamata [Skeleton Screens](https://blog.prototypr.io/luke-wroblewski-introduced-skeleton-screens-in-2013-through-his-work-on-the-polar-app-later-fd1d32a6a8e7).
 Il Team Rosso lascia l'include SSI `green-recos` nel  markup.
-In più, il Team Verde cambia  __il metodo di renderizzazione lato-server__ del suo frammento in modo che produca una __versione schematica del contentuto__.
+In più, il Team Verde cambia  __il metodo di renderizzazione lato-server__ del suo frammento in modo che produca una __versione schematica del contenuto__.
 Il __markup skeleton___ può riusare parte degli stili del layout del contenuto reale.
 Così __prenota lo spazio necessario__ e il riempimento del contenuto reale non comporta un salto.
 
 <img alt="Schermo Skeleton" src="./ressources/video/data-fetching-skeleton.gif" style="width: 500px" loading="lazy" />
 
 Gli Skeleton screen sono anche molto __utili per il rendering lato client__.
-Quando il tuo Elemento Custom viene inserito nel DOM per un'azione del'utente, potrebbe __renderizzare immediatamente lo scheletro__ finché non arrivano i dati di cui ha bisogno dal server.
+Quando il tuo Elemento Custom viene inserito nel DOM per un'azione dell'utente, potrebbe __renderizzare immediatamente lo scheletro__ finché non arrivano i dati di cui ha bisogno dal server.
 
 Anche per un __cambio d'attributo__ (per esempio per la __selezione di una variante__) si può decidere di passare alla vista scheletro finché non arrivano i nuovi dati.
 
-Im questo modo, l'utente riceve un'indicazione che qualcosa sta succedendo nel frammento. 
+In questo modo, l'utente riceve un'indicazione che qualcosa sta succedendo nel frammento. 
 Ma quando l'endpoint risponde velocemente, può dare fastidio anche un piccolo __sfarfallio dello scheletro__ fra i dati vecchi e nuovi.
 Può aiutare preservare i vecchi dati o usare timeout intelligenti.
 Quindi, usa questa tecnica saggiamente e cerca di ottenere il feedback degli utenti.
@@ -357,7 +357,7 @@ Guarda il [Repo Github](https://github.com/neuland/micro-frontends) per ricevere
 - I trattori si possono comprare da [manufactum.com](https://www.manufactum.com/) :)<br>_Questo negozio è stato sviluppato da due team usando le tecniche qui descritte._
 
 ## Related Techniques
-- [Posts: Cookie Cutter Scaling](https://paulhammant.com/categories.html#Cookie_Cutter_Scaling) David Hammet has scritto una serie di blog post su quest'argomento 
+- [Posts: Cookie Cutter Scaling](https://paulhammant.com/categories.html#Cookie_Cutter_Scaling) David Hammet ha scritto una serie di blog post su quest'argomento 
 - [Wikipedia: Java Portlet Specification](https://en.wikipedia.org/wiki/Java_Portlet_Specification) Specifica che si rivolge ad argomento simili per la costruzione di portali enterprise.
 
 ---
