@@ -1,7 +1,7 @@
 # Micro Frontends
 **Extending the Microservice Paradigms to Web Development**
 
-This the translation into Italian of the Michael's Micro Frontend educational website.
+This the translation into Italian of Michael's Micro Frontend educational website.
 
 The actual site can be found at [micro-frontends.org](https://micro-frontends.org/).
 
