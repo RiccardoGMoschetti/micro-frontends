@@ -2,7 +2,7 @@ Tecniche, strategie e ricette per sviluppare un'__applicazione web moderna__ con
 
 ## Cosa sono i Micro Frontend?
 
-Il termine __Micro Frontend__ è apparso per la prima volta su [ThoughtWorks Technology Radar](https://www.thoughtworks.com/radar/techniques/micro-frontends) alla fine del 2016. Estende i concetti dei microservizi al mondo del frontend. Il trend corrente era di costruire applicazioni browser potenti e ricche di funzionalità - note come single page application - in testa ad architetture a microservizi. Con il tempo, questo strato di frontend, sviluppato il più delle volte da un team a sé stante, cresce e diventa difficile da manutenere. Chiamiamo ciò [Frontend Monolitico](https://www.youtube.com/watch?v=pU1gXA0rfwc).
+Il termine __Micro Frontend__ è apparso per la prima volta su [ThoughtWorks Technology Radar](https://www.thoughtworks.com/radar/techniques/micro-frontends) alla fine del 2016. Estende i concetti dei microservizi al mondo del frontend. Il trend corrente era di costruire applicazioni browser potenti e ricche di funzionalità - note come single page application - in cima ad architetture a microservizi. Con il tempo, questo strato di frontend, sviluppato il più delle volte da un team a sé stante, cresce e diventa difficile da manutenere. Lo chiamiamo [Frontend Monolitico](https://www.youtube.com/watch?v=pU1gXA0rfwc).
 
 L'idea alla base dei Micro Frontend è - invece - di pensare al sito web o alla web app come a una __composizione di funzionalità__ che fanno capo a __team indipendenti__. Ogni team ha una sua __area di business, o missione, diversa__, di cui si prende cura e in cui si specializza. Ogni team è __cross funzionale__ e sviluppa le sue funzionalità __end-to-end__, dal database all'interfaccia utente.
 
@@ -19,7 +19,7 @@ __Organizzazione in verticali__
 
 Nell'introduzione, ho usato l'espressione "costruire un'applicazione web moderna". Definiamo le assunzioni collegate a questa definizione.
 
-Se la mettiamo in una prospettiva più ampia, [Aral Balkan](https://ar.al/) ha scritto un articolo su quello che chiama il [Continuum documenti-applicazioni](https://ar.al/notes/the-documents-to-applications-continuum/). Ha proposto il concetto di una bilancia scorrevole alla cui sinistra c'è un sito costruito da __documenti statici__, connessi attraverso link, mentre alla destra c'è un'__applicazione senza contenuti__, guidata puramente da comportamenti (behaviour driven), come un editor di foto.
+Partiamo da lontano: [Aral Balkan](https://ar.al/) ha scritto un articolo su quello che chiama il [Continuum documenti-applicazioni](https://ar.al/notes/the-documents-to-applications-continuum/). Ha proposto l'immagine di una _bilancia scorrevole_ alla cui sinistra c'è un sito costruito da __documenti statici__, connessi attraverso link, mentre alla destra c'è un'__applicazione senza contenuti__, guidata puramente da comportamenti (behaviour driven), come un editor di foto.
 
 Se il tuo progetto si posiziona alla __sinistra dello spettro__, è adatto a un'__integrazione a livello di webserver__. In tale modello, un server raccoglie e concatena __stringhe HTML__ provenienti da tutti i componenti che costituiscono la pagina richiesta dall'utente. Gli aggiornamenti sono fatti ricaricando la pagina dal server o sostituendone alcune parti con Ajax. [Gustaf Nilsson Kotte](https://twitter.com/gustaf_nk/) ha scritto un [articolo esaustivo](https://gustafnk.github.io/microservice-websites/) su quest'argomento.
 
